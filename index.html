@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<style>
+			#preload {
+				display: none;
+			}
+			#div1 {
+				width: 50%;
+				margin: auto;
+				line-height: 1.7em;
+				font-family: "Vollkorn";
+				font-size: 1.4em;
+			}
+			#content {
+				width: 100%;
+				/*min-height: 600px;*/
+				height: 100%;
+				max-width: 1920px;
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				font-family: "Rock Salt";
+			}
+			#title h1 {
+				padding-left: 60px;
+				font-size: 68px;
+				color: #fff;
+				font-family: "Rock Salt";
+			}
+			#title h2 {
+				padding-left: 120px;
+				font-size: 60px;
+				color: #fff;
+				font-family: "Rock Salt";
+			}
+			
+		</style>
+		<script src="rita.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+		<script>
+			document.addEventListener("DOMContentLoaded", function(event) {
+			    var myPix = new Array("/images/1.gif","/images/2.gif","/images/3.gif","/images/4.gif","/images/5.gif","/images/6.gif");
+				var randomNum = Math.floor(Math.random() * myPix.length);
+				picUrl = "images/" + randomNum + ".gif";
+				document.getElementById("content").style.backgroundImage = "url(" + picUrl + ")";
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="content">
+			<div id="title"
+				<br />
+				<h1>You Used to Call Me</h1>
+				<h2>A Memoir</h2>
+			</div>
+		</div>
+
+		<div id="div1">
+		</div>
+	</body>
+
+	<script>
+		var fulltext = [];
+		var wordCount = 0;
+
+		var rm = new RiMarkov(RiTa.random(3,4));
+		   rm.minSentenceLength = 3;
+		   rm.maxSentenceLength = 20;
+		   
+		RiTa.loadString('drake-lyrics.txt', function(text) {
+			rm.loadText(text);
+			console.log("text loaded");
+
+			fulltext.push("Chapter 1");
+
+			for (var i=0; wordCount<50000; i++){
+				sentences = rm.generateSentences(RiTa.random(3,14));
+				paragraph = sentences.join(" ");
+				fulltext.push(paragraph);
+
+				pcount = paragraph.length;
+				wordCount = wordCount + pcount;
+				console.log(wordCount);
+			}
+
+			for (i=0; i <fulltext.length; i++) {
+				var p = document.createElement("P");
+				var t = document.createTextNode(fulltext[i]);
+				p.appendChild(t);
+				var element = document.getElementById("div1");
+				element.appendChild(p);
+			}
+		});		
+	</script>
+
+</html>
